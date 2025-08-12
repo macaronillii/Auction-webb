@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>หน้าประมูล - AuctionHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .auction-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+        }
+
+        .left-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .image-gallery {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .main-image {
+            width: 100%;
+            height: 400px;
+            background: #a8b9e0;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #fff;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .thumbnails {
+            display: flex;
+            gap: 15px;
+        }
+
+        .thumbnail {
+            width: 100px;
+            height: 80px;
+            background: #a8b9e0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            overflow: hidden;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .thumbnail.active {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .thumbnail:hover {
+            transform: scale(1.05);
+        }
+
+        .bidding-board {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            min-height: 300px;
+        }
+
+        .board-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .bid-history {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .bid-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .bidder-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bidder-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .bid-time {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .bid-amount {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .right-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Owner Profile Section */
+        .owner-profile {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .owner-profile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            overflow: hidden;
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .owner-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .owner-title {
+            font-size: 1rem;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .view-profile-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            color: #667eea;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .auction-info {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .current-price {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .price-label {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .price-value {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .bid-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .bid-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .bid-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .bid-amount-display {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .main-bid-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .main-bid-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .countdown {
+            text-align: center;
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .countdown-label {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .countdown-timer {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e67e22;
+        }
+
+        .description {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            min-height: 200px;
+        }
+
+        .description-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .description-text {
+            line-height: 1.8;
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: none;
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #667eea;
+            z-index: 1000;
+        }
+
+        .back-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .auction-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .thumbnails {
+                flex-wrap: wrap;
+            }
+            
+            .thumbnail {
+                width: 80px;
+                height: 60px;
+            }
+            
+            .price-value {
+                font-size: 2rem;
+            }
+            
+            .countdown-timer {
+                font-size: 1.5rem;
+            }
+
+            .profile-header {
+                gap: 12px;
+            }
+
+            .profile-avatar {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .owner-name {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="goBack()">⬅ กลับ</button>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="auction-title">#หน้าประมูล</h1>
+            <p class="product-name" id="productName">ชื่อสินค้า</p>
+        </div>
+
+        <div class="main-content">
+            <div class="left-section">
+                <!-- Gallery -->
+                <div class="image-gallery">
+                    <div class="main-image" id="mainImage">
+                        PIC 1
+                    </div>
+                    <div class="thumbnails" id="thumbnails">
+                        <div class="thumbnail active" onclick="changeImage(0)">PIC 1</div>
+                        <div class="thumbnail" onclick="changeImage(1)">PIC 2</div>
+                        <div class="thumbnail" onclick="changeImage(2)">PIC 3</div>
+                        <div class="thumbnail" onclick="changeImage(3)">PIC 4</div>
+                    </div>
+                </div>
+
+                <!-- Bidding Board -->
+                <div class="bidding-board">
+                    <h3 class="board-title">BIDDING! Board</h3>
+                    <div class="bid-history" id="bidHistory">
+                        <div class="bid-item">
+                            <div class="bidder-info">
+                                <span class="bidder-name">ผู้ใช้ A</span>
+                                <span class="bid-time">2 นาทีที่แล้ว</span>
+                            </div>
+                            <span class="bid-amount">฿35,000</span>
+                        </div>
+                        <div class="bid-item">
+                            <div class="bidder-info">
+                                <span class="bidder-name">ผู้ใช้ B</span>
+                                <span class="bid-time">5 นาทีที่แล้ว</span>
+                            </div>
+                            <span class="bid-amount">฿33,000</span>
+                        </div>
+                        <div class="bid-item">
+                            <div class="bidder-info">
+                                <span class="bidder-name">ผู้ใช้ C</span>
+                                <span class="bid-time">8 นาทีที่แล้ว</span>
+                            </div>
+                            <span class="bid-amount">฿30,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <!-- Owner Profile -->
+                <div class="owner-profile" id="ownerProfile" onclick="viewOwnerProfile()">
+                    <div class="profile-header">
+                        <div class="profile-avatar" id="ownerAvatar">
+                            J
+                        </div>
+                        <div class="profile-info">
+                            <div class="owner-name" id="ownerName">John Doe</div>
+                            <div class="owner-title" id="ownerTitle">เจ้าของสินค้า</div>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="ownerSales">25</span>
+                            <span class="stat-label">ขายแล้ว</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="ownerRating">4.8</span>
+                            <span class="stat-label">คะแนน</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="ownerYears">3</span>
+                            <span class="stat-label">ปี</span>
+                        </div>
+                    </div>
+                    <div class="view-profile-btn">
+                        
+                    </div>
+                </div>
+
+                <!-- Auction Info -->
+                <div class="auction-info">
+                    <div class="current-price">
+                        <div class="price-label">Current Price</div>
+                        <div class="price-value" id="currentPrice">฿35,000</div>
+                    </div>
+
+                    <div class="bid-controls">
+                        <button class="bid-btn" onclick="decreaseBid()">-</button>
+                        <div class="bid-amount-display" id="bidAmount">1000</div>
+                        <button class="bid-btn" onclick="increaseBid()">+</button>
+                    </div>
+
+                    <button class="main-bid-btn" onclick="placeBid()">BID!!!</button>
+
+                    <div class="countdown">
+                        <div class="countdown-label">Counting Down Time</div>
+                        <div class="countdown-timer" id="countdownTimer">02:30:45</div>
+                    </div>
+
+                    <button class="main-bid-btn" style="background: #e74c3c;" id="auctionBtn">
+                        ผู้ประมูล
+                    </button>
+                </div>
+
+                <!-- Description -->
+                <div class="description">
+                    <h3 class="description-title">Description</h3>
+                    <div class="description-text" id="productDescription">
+                        รายละเอียดของสินค้าที่กำลังประมูล จะแสดงที่นี่
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentBidAmount = 1000;
+        let currentPrice = 35000;
+        let product = null;
+
+        // Load product data
+        document.addEventListener('DOMContentLoaded', function() {
+            product = JSON.parse(localStorage.getItem('selectedProduct'));
+            if (product) {
+                loadProductData();
+                startCountdown();
+            }
+        });
+
+        function loadProductData() {
+            document.getElementById('productName').textContent = product.title || 'ชื่อสินค้า';
+            document.getElementById('currentPrice').textContent = `฿${product.price || '35,000'}`;
+            document.getElementById('productDescription').textContent = product.description || 'รายละเอียดของสินค้าที่กำลังประมูล';
+            
+            // Load owner data
+            loadOwnerData();
+            
+            // Load images
+            if (product.images && product.images.length > 0) {
+                const mainImage = document.getElementById('mainImage');
+                mainImage.innerHTML = `<img src="${product.images[0]}" alt="${product.title}">`;
+                
+                const thumbnails = document.getElementById('thumbnails');
+                thumbnails.innerHTML = '';
+                
+                product.images.forEach((img, index) => {
+                    const thumb = document.createElement('div');
+                    thumb.className = `thumbnail ${index === 0 ? 'active' : ''}`;
+                    thumb.innerHTML = `<img src="${img}" alt="รูปที่ ${index + 1}">`;
+                    thumb.onclick = () => changeImage(index);
+                    thumbnails.appendChild(thumb);
+                });
+            }
+            
+            currentBidAmount = parseInt(product.minBid) || 1000;
+            document.getElementById('bidAmount').textContent = currentBidAmount;
+        }
+
+        function loadOwnerData() {
+            // Load owner information (can be from product data or separate API)
+            const ownerData = product.owner || {
+                name: 'John Doe',
+                avatar: null,
+                title: 'เจ้าของสินค้า',
+                sales: 25,
+                rating: 4.8,
+                years: 3
+            };
+
+            document.getElementById('ownerName').textContent = ownerData.name || 'John Doe';
+            document.getElementById('ownerTitle').textContent = ownerData.title || 'เจ้าของสินค้า';
+            document.getElementById('ownerSales').textContent = ownerData.sales || '25';
+            document.getElementById('ownerRating').textContent = ownerData.rating || '4.8';
+            document.getElementById('ownerYears').textContent = ownerData.years || '3';
+
+            // Set avatar
+            const ownerAvatar = document.getElementById('ownerAvatar');
+            if (ownerData.avatar) {
+                ownerAvatar.innerHTML = `<img src="${ownerData.avatar}" alt="${ownerData.name}">`;
+            } else {
+                // Use first letter of name as default avatar
+                const firstLetter = ownerData.name ? ownerData.name.charAt(0).toUpperCase() : 'J';
+                ownerAvatar.textContent = firstLetter;
+            }
+        }
+
+        function viewOwnerProfile() {
+            // Store owner data for profile page
+            const ownerData = product.owner || {
+                name: document.getElementById('ownerName').textContent,
+                title: document.getElementById('ownerTitle').textContent,
+                sales: document.getElementById('ownerSales').textContent,
+                rating: document.getElementById('ownerRating').textContent,
+                years: document.getElementById('ownerYears').textContent,
+                avatar: null
+            };
+            
+            localStorage.setItem('selectedOwner', JSON.stringify(ownerData));
+            
+            // Check if profile.html exists, otherwise show alert
+            try {
+                window.location.href = 'profile.html';
+            } catch (error) {
+                alert('กำลังพาไปที่หน้าโปรไฟล์ของเจ้าของสินค้า\n\nชื่อ: ' + ownerData.name + '\nคะแนน: ' + ownerData.rating + '/5.0\nขายแล้ว: ' + ownerData.sales + ' รายการ');
+            }
+        }
+
+        function changeImage(index) {
+            if (!product || !product.images || !product.images[index]) return;
+            
+            const mainImage = document.getElementById('mainImage');
+            mainImage.innerHTML = `<img src="${product.images[index]}" alt="${product.title}">`;
+            
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+                thumb.classList.toggle('active', i === index);
+            });
+        }
+
+        function increaseBid() {
+            currentBidAmount += 500;
+            document.getElementById('bidAmount').textContent = currentBidAmount;
+        }
+
+        function decreaseBid() {
+            if (currentBidAmount > 500) {
+                currentBidAmount -= 500;
+                document.getElementById('bidAmount').textContent = currentBidAmount;
+            }
+        }
+
+        function placeBid() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (!loggedInUser) {
+                alert('กรุณาเข้าสู่ระบบก่อนทำการประมูล');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const newPrice = currentPrice + currentBidAmount;
+            
+            if (confirm(`คุณต้องการประมูลด้วยราคา ฿${newPrice.toLocaleString()} หรือไม่?`)) {
+                currentPrice = newPrice;
+                document.getElementById('currentPrice').textContent = `฿${currentPrice.toLocaleString()}`;
+                
+                // Add to bid history
+                addBidToHistory(loggedInUser, currentPrice);
+                
+                alert(`ประมูลสำเร็จ! ราคาปัจจุบัน: ฿${currentPrice.toLocaleString()}`);
+            }
+        }
+
+        function addBidToHistory(bidder, amount) {
+            const bidHistory = document.getElementById('bidHistory');
+            const newBid = document.createElement('div');
+            newBid.className = 'bid-item';
+            newBid.innerHTML = `
+                <div class="bidder-info">
+                    <span class="bidder-name">${bidder}</span>
+                    <span class="bid-time">เมื่อสักครู่</span>
+                </div>
+                <span class="bid-amount">฿${amount.toLocaleString()}</span>
+            `;
+            bidHistory.insertBefore(newBid, bidHistory.firstChild);
+        }
+
+        function viewOwnerProfile() {
+            // Store owner data for profile page
+            const ownerData = {
+                name: document.getElementById('ownerName').textContent || 'John Doe',
+                title: document.getElementById('ownerTitle').textContent || 'เจ้าของสินค้า',
+                sales: document.getElementById('ownerSales').textContent || '25',
+                rating: document.getElementById('ownerRating').textContent || '4.8',
+                years: document.getElementById('ownerYears').textContent || '3',
+                avatar: product && product.owner && product.owner.avatar ? product.owner.avatar : null,
+                email: product && product.owner && product.owner.email ? product.owner.email : 'johndoe@example.com',
+                phone: product && product.owner && product.owner.phone ? product.owner.phone : '081-234-5678',
+                line: product && product.owner && product.owner.line ? product.owner.line : '@johndoe123',
+                totalBids: product && product.owner && product.owner.totalBids ? product.owner.totalBids : '150',
+                bio: product && product.owner && product.owner.bio ? product.owner.bio : 'ผู้ใช้ที่มีประสบการณ์ในการซื้อขายประมูลออนไลน์ มุ่งมั่นในการให้บริการที่ดีที่สุดแก่ลูกค้า'
+            };
+            
+            // Store in both localStorage and window object for compatibility
+            try {
+                localStorage.setItem('selectedOwner', JSON.stringify(ownerData));
+            } catch (e) {
+                console.log('localStorage not available, using window object');
+            }
+            window.selectedUser = ownerData;
+            
+            // Navigate to user profile page
+            window.location.href = 'user_profile_page.html';
+        }
+
+        function startCountdown() {
+            let timeLeft = (product && product.time) ? product.time * 60 : 150 * 60; // convert minutes to seconds
+            
+            const countdownElement = document.getElementById('countdownTimer');
+            
+            const timer = setInterval(() => {
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+                
+                countdownElement.textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                timeLeft--;
+                
+                if (timeLeft < 0) {
+                    clearInterval(timer);
+                    countdownElement.textContent = "หมดเวลา!";
+                    countdownElement.style.color = "#e74c3c";
+                }
+            }, 1000);
+        }
+
+        function goBack() {
+            window.location.href = 'home.html';
+        }
+    </script>
+</body>
+</html>

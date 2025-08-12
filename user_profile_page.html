@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรไฟล์ผู้ใช้ - AuctionHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: none;
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #667eea;
+            z-index: 1000;
+        }
+
+        .back-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .profile-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .profile-left {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .profile-picture-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-picture {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #9bb5f0, #7b9ef2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            font-weight: 700;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(155, 181, 240, 0.4);
+            border: 3px solid white;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-picture:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 17px;
+        }
+
+        .profile-name-section {
+            background: linear-gradient(135deg, #9bb5f0, #7b9ef2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(155, 181, 240, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-name-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(155, 181, 240, 0.4);
+        }
+
+        .profile-rating-section {
+            background: linear-gradient(135deg, #9bb5f0, #7b9ef2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(155, 181, 240, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-rating-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(155, 181, 240, 0.4);
+        }
+
+        .rating-text {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .rating-stars {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .rating-score {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .profile-right {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-item {
+            background: linear-gradient(135deg, #9bb5f0, #7b9ef2);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(155, 181, 240, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(155, 181, 240, 0.5);
+            background: linear-gradient(135deg, #8ba8ee, #6b8ef0);
+        }
+
+        .contact-icon {
+            font-size: 1.3rem;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .statistics-section {
+            background: linear-gradient(135deg, #9bb5f0, #7b9ef2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            box-shadow: 0 15px 35px rgba(155, 181, 240, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .statistics-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px 15px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 8px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Kanit', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .action-btn:hover::before {
+            left: 100%;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .secondary-btn {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .additional-info {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .info-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .info-text {
+            color: #666;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .custom-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            padding: 15px 20px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideInAlert 0.4s ease-out;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .custom-alert.success {
+            background: linear-gradient(135deg, rgba(40, 167, 69, 0.95), rgba(32, 201, 151, 0.95));
+        }
+
+        .custom-alert.error {
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.95), rgba(231, 76, 60, 0.95));
+        }
+
+        .custom-alert.warning {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.95), rgba(255, 152, 0, 0.95));
+        }
+
+        .custom-alert.info {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.95), rgba(41, 128, 185, 0.95));
+        }
+
+        .alert-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert-icon {
+            font-size: 1.3rem;
+            min-width: 24px;
+        }
+
+        .alert-message {
+            flex: 1;
+            white-space: pre-line;
+            line-height: 1.4;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        .alert-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes slideInAlert {
+            0% {
+                opacity: 0;
+                transform: translateX(100%) translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px 20px;
+                margin: 10px;
+            }
+
+            .profile-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .profile-picture {
+                width: 150px;
+                height: 150px;
+                font-size: 3rem;
+            }
+
+            .profile-title {
+                font-size: 2rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .back-btn {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: 20px;
+                display: inline-block;
+            }
+
+            .stat-number {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .profile-title {
+                font-size: 1.6rem;
+            }
+
+            .contact-item {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+
+            .action-btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="goBack()">⬅ กลับ</button>
+
+    <div class="container">
+        <div class="profile-header">
+            <h1 class="profile-title" id="profileTitle">#หน้า profile คนอื่น</h1>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-left">
+                <div class="profile-picture-section">
+                    <div class="profile-picture" id="userProfilePicture">
+                        👤
+                    </div>
+                </div>
+
+                <div class="profile-name-section" id="userNameSection">
+                    กำลังโหลด...
+                </div>
+
+                <div class="profile-rating-section">
+                    <div class="rating-text">คะแนนรีวิว</div>
+                    <div class="rating-stars" id="ratingStars">★★★★☆</div>
+                    <div class="rating-score" id="ratingScore">4.0/5 star</div>
+                </div>
+            </div>
+
+            <div class="profile-right">
+                <div class="contact-section">
+                    <div class="contact-item" onclick="contactUser('email')">
+                        <span class="contact-icon">📧</span>
+                        <span id="contactEmail">อีเมล: กำลังโหลด...</span>
+                    </div>
+                    <div class="contact-item" onclick="contactUser('phone')">
+                        <span class="contact-icon">📱</span>
+                        <span id="contactPhone">เบอร์: กำลังโหลด...</span>
+                    </div>
+                    <div class="contact-item" onclick="contactUser('line')">
+                        <span class="contact-icon">💬</span>
+                        <span id="contactLine">Line: กำลังโหลด...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="statistics-section">
+            <div class="statistics-title">📊 สถิติการประมูล</div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalSales">0</span>
+                    <span class="stat-label">สินค้าที่ขายแล้ว</span>
+                </div>
+
+                <div class="stat-item">
+                    <span class="stat-number" id="memberYears">0</span>
+                    <span class="stat-label">ปีที่เป็นสมาชิก</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalBids">0</span>
+                    <span class="stat-label">ครั้งที่ประมูล</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="additional-info">
+            <div class="info-title">📝 เกี่ยวกับผู้ใช้</div>
+            <div class="info-text" id="userBio">
+                คำอธิบายเพิ่มเติม ใส่อะไรก็ได้ แคปชงแคปชั่น แคปหมู แคปหมา แคป*ให้ผมดูหน่อย
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-btn primary-btn" id="followBtn" onclick="followUser()">
+                ✅ ติดตาม
+            </button>
+            <button class="action-btn primary-btn" onclick="sendMessage()">
+                💬 ส่งข้อความ
+            </button>
+            <button class="action-btn secondary-btn" onclick="reportUser()">
+                ⚠️ รายงาน
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+
+        // Load user data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserProfile();
+            addEventListeners();
+        });
+
+        function loadUserProfile() {
+            // Try to get user data from various sources
+            let userData = null;
+            
+            // Try window object first (set by auction_page)
+            if (typeof window !== 'undefined' && window.selectedUser) {
+                userData = JSON.stringify(window.selectedUser);
+            }
+            // Try localStorage as fallback
+            else {
+                try {
+                    userData = localStorage.getItem('selectedOwner') || localStorage.getItem('selectedUser');
+                } catch (e) {
+                    console.log('localStorage not available');
+                }
+            }
+
+            if (userData && userData !== 'null') {
+                try {
+                    currentUser = JSON.parse(userData);
+                    displayUserProfile(currentUser);
+                    showAlert(`โหลดโปรไฟล์ของ "${currentUser.name}" สำเร็จ!`, 'success');
+                } catch (error) {
+                    console.error('Error parsing user data:', error);
+                    loadDefaultProfile();
+                    showAlert('โหลดข้อมูลผู้ใช้ไม่สำเร็จ แสดงข้อมูลตัวอย่าง', 'warning');
+                }
+            } else {
+                loadDefaultProfile();
+                showAlert('ไม่พบข้อมูลผู้ใช้ แสดงข้อมูลตัวอย่าง', 'info');
+            }
+
+            updateFollowButton();
+        }
+
+        function displayUserProfile(user) {
+            // Update profile picture
+            const profilePicture = document.getElementById('userProfilePicture');
+            if (user.avatar && user.avatar !== 'null') {
+                profilePicture.innerHTML = `<img src="${user.avatar}" alt="${user.name}" onerror="this.parentElement.innerHTML='${getInitials(user.name)}'">`;
+            } else {
+                profilePicture.textContent = getInitials(user.name);
+            }
+
+            // Update name and title
+            document.getElementById('userNameSection').textContent = user.name || 'ผู้ใช้ไม่ระบุชื่อ';
+            document.getElementById('profileTitle').textContent = `#โปรไฟล์ของ ${user.name || 'ผู้ใช้'}`;
+
+            // Update rating
+            const rating = parseFloat(user.rating) || 4.8;
+            updateRatingDisplay(rating);
+
+            // Update contact information
+            document.getElementById('contactEmail').textContent = user.email || 'johndoe@example.com';
+            document.getElementById('contactPhone').textContent = user.phone || '081-234-5678';
+            document.getElementById('contactLine').textContent = user.line || '@johndoe123';
+
+            // Update statistics
+            document.getElementById('totalSales').textContent = user.sales || '25';
+            document.getElementById('memberYears').textContent = user.years || '3';
+            document.getElementById('totalBids').textContent = user.totalBids || '150';
+
+            // Update bio
+            if (user.bio) {
+                document.getElementById('userBio').textContent = user.bio;
+            }
+        }
+
+        function loadDefaultProfile() {
+            const defaultUser = {
+                name: 'John Doe',
+                avatar: null,
+                rating: 4.8,
+                email: 'johndoe@example.com',
+                phone: '081-234-5678',
+                line: '@johndoe123',
+                sales: 25,
+                years: 3,
+                totalBids: 150,
+                bio: 'ผู้ใช้ที่มีประสบการณ์ในการซื้อขายประมูลออนไลน์ มุ่งมั่นในการให้บริการที่ดีที่สุดแก่ลูกค้า'
+            };
+            
+            currentUser = defaultUser;
+            displayUserProfile(defaultUser);
+        }
+
+        function getInitials(name) {
+            if (!name) return '👤';
+            const words = name.split(' ');
+            return words.length > 1 ? 
+                (words[0].charAt(0) + words[1].charAt(0)).toUpperCase() :
+                name.charAt(0).toUpperCase();
+        }
+
+        function updateRatingDisplay(rating) {
+            const maxStars = 5;
+            let stars = '';
+            
+            for (let i = 1; i <= maxStars; i++) {
+                if (i <= Math.floor(rating)) {
+                    stars += '★';
+                } else if (i - 0.5 <= rating) {
+                    stars += '☆';
+                } else {
+                    stars += '☆';
+                }
+            }
+            
+            document.getElementById('ratingStars').textContent = stars;
+            document.getElementById('ratingScore').textContent = rating.toFixed(1) + '/5 star';
+        }
+
+        function contactUser(contactType) {
+            if (!currentUser) {
+                showAlert('ไม่พบข้อมูลผู้ใช้', 'error');
+                return;
+            }
+
+            let loggedInUser = 'DemoUser';
+            try {
+                loggedInUser = localStorage.getItem('loggedInUser') || 'DemoUser';
+            } catch (e) {
+                loggedInUser = 'DemoUser';
+            }
+
+            let contactInfo = '';
+            let contactMethod = '';
+
+            switch (contactType) {
+                case 'email':
+                    contactInfo = currentUser.email;
+                    contactMethod = 'อีเมล';
+                    break;
+                case 'phone':
+                    contactInfo = currentUser.phone;
+                    contactMethod = 'เบอร์โทรศัพท์';
+                    break;
+                case 'line':
+                    contactInfo = currentUser.line;
+                    contactMethod = 'Line ID';
+                    break;
+            }
+
+            if (contactInfo && !contactInfo.includes('กำลังโหลด')) {
+                if (confirm('ต้องการติดต่อ "' + currentUser.name + '" ผ่าน' + contactMethod + '?\n\n' + contactMethod + ': ' + contactInfo)) {
+                    showAlert('กำลังเปิด' + contactMethod + ': ' + contactInfo, 'success');
+                    // In real app, open appropriate contact method
+                    if (contactType === 'email' && contactInfo.includes('@')) {
+                        window.open('mailto:' + contactInfo + '?subject=สอบถามเกี่ยวกับการประมูล');
+                    } else if (contactType === 'phone') {
+                        window.open('tel:' + contactInfo);
+                    }
+                }
+            } else {
+                showAlert(contactMethod + 'ของผู้ใช้นี้ไม่พร้อมใช้งาน', 'warning');
+            }
+        }
+
+        function followUser() {
+            let loggedInUser = 'DemoUser';
+            try {
+                loggedInUser = localStorage.getItem('loggedInUser') || 'DemoUser';
+            } catch (e) {
+                loggedInUser = 'DemoUser';
+            }
+
+            if (!currentUser) {
+                showAlert('ไม่พบข้อมูลผู้ใช้', 'error');
+                return;
+            }
+
+            let followedUsers = [];
+            try {
+                followedUsers = JSON.parse(localStorage.getItem('followedUsers') || '[]');
+            } catch (e) {
+                followedUsers = window.followedUsers || [];
+            }
+
+            const userId = currentUser.name;
+
+            if (followedUsers.includes(userId)) {
+                // Unfollow
+                followedUsers = followedUsers.filter(function(id) { return id !== userId; });
+                try {
+                    localStorage.setItem('followedUsers', JSON.stringify(followedUsers));
+                } catch (e) {
+                    window.followedUsers = followedUsers;
+                }
+                showAlert('เลิกติดตาม "' + currentUser.name + '" เรียบร้อยแล้ว', 'info');
+            } else {
+                // Follow
+                followedUsers.push(userId);
+                try {
+                    localStorage.setItem('followedUsers', JSON.stringify(followedUsers));
+                } catch (e) {
+                    window.followedUsers = followedUsers;
+                }
+                showAlert('ติดตาม "' + currentUser.name + '" เรียบร้อยแล้ว!', 'success');
+            }
+
+            updateFollowButton();
+        }
+
+        function updateFollowButton() {
+            if (!currentUser) return;
+            
+            let followedUsers = [];
+            try {
+                followedUsers = JSON.parse(localStorage.getItem('followedUsers') || '[]');
+            } catch (e) {
+                followedUsers = window.followedUsers || [];
+            }
+
+            const followBtn = document.getElementById('followBtn');
+            
+            if (followedUsers.includes(currentUser.name)) {
+                followBtn.textContent = '✅ กำลังติดตาม';
+                followBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+            } else {
+                followBtn.textContent = '➕ ติดตาม';
+                followBtn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+            }
+        }
+
+        function sendMessage() {
+            showAlert('ฟีเจอร์ส่งข้อความยังไม่พร้อมใช้งาน', 'info');
+        }
+
+        function reportUser() {
+            if (confirm('คุณแน่ใจหรือไม่ที่ต้องการรายงานผู้ใช้ "' + (currentUser ? currentUser.name : 'ผู้ใช้') + '"?')) {
+                showAlert('ส่งรายงานเรียบร้อยแล้ว ทีมงานจะตรวจสอบ', 'success');
+            }
+        }
+
+        function goBack() {
+            // กลับไปหน้า auction_page
+            window.location.href = 'auction_page.html';
+        }
+
+        function showAlert(message, type) {
+            // Remove existing alerts
+            const existingAlerts = document.querySelectorAll('.custom-alert');
+            existingAlerts.forEach(alert => alert.remove());
+
+            // Create new alert
+            const alert = document.createElement('div');
+            alert.className = `custom-alert ${type}`;
+            
+            const iconMap = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️'
+            };
+
+            alert.innerHTML = `
+                <div class="alert-content">
+                    <span class="alert-icon">${iconMap[type] || 'ℹ️'}</span>
+                    <span class="alert-message">${message}</span>
+                    <button class="alert-close" onclick="this.parentElement.parentElement.remove()">×</button>
+                </div>
+            `;
+
+            document.body.appendChild(alert);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (alert.parentElement) {
+                    alert.remove();
+                }
+            }, 5000);
+        }
+
+        function addEventListeners() {
+            // Add any additional event listeners here
+        }
+    </script>
+</body>
+</html>

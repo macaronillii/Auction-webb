@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สมัครเป็น Seller - AuctionHub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">🏆 AuctionHub</div>
+            <div class="tagline">เว็บประมูลออนไลน์ที่ใหญ่ที่สุดในประเทศไทย</div>
+            <div class="header-right">
+            </div>
+        </header>
+
+        <nav class="nav">
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="home.html" class="nav-link">🏠 Home</a></li>
+                <li class="nav-item"><a href="product-list.html" class="nav-link">🚀 Start Auction</a></li>
+                <li class="nav-item"><a href="cart.html" class="nav-link">🛒 Cart</a></li>
+                <li class="nav-item"><a href="categories.html" class="nav-link">📂 Categories</a></li>
+                <li class="nav-item"><a href="search.html" class="nav-link">🔍 Search</a></li>
+                <li class="nav-item"><a href="auctions.html" class="nav-link">👤 User</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <div class="seller-registration">
+                <h2 class="section-title">#สมัครเป็น Seller</h2>
+                
+                <form class="registration-form" id="sellerForm">
+                    <div class="form-layout">
+                        <div class="left-section">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="seller-contact1">📞 เบอร์โทรศัพท์ 1</label>
+                                    <input type="tel" id="seller-contact1" name="contact1" class="form-input" placeholder="กรอกเบอร์โทรศัพท์หลัก" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="seller-contact2">📞 เบอร์โทรศัพท์ 2</label>
+                                    <input type="tel" id="seller-contact2" name="contact2" class="form-input" placeholder="กรอกเบอร์โทรศัพท์สำรอง">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="seller-contact3">📞 เบอร์โทรศัพท์ 3</label>
+                                    <input type="tel" id="seller-contact3" name="contact3" class="form-input" placeholder="กรอกเบอร์โทรศัพท์เพิ่มเติม">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="citizen-id">🆔 เลขบัตรประชาชน</label>
+                                    <input type="text" id="citizen-id" name="citizenId" class="form-input" placeholder="กรอกเลขบัตรประชาชน 13 หลัก" maxlength="13" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="seller-address">🏠 ที่อยู่</label>
+                                    <textarea id="seller-address" name="address" class="form-textarea" rows="4" placeholder="กรอกที่อยู่ของคุณ" required></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="bank-account">🏦 บัญชีธนาคาร</label>
+                                    <input type="text" id="bank-account" name="bankAccount" class="form-input" placeholder="ชื่อธนาคาร-เลขบัญชี" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group qr-group">
+                                    <label for="qr-code">📱 QR-CODE</label>
+                                    <div class="qr-upload-container">
+                                        <input type="file" id="qr-code" name="qrCode" class="form-file" accept="image/*">
+                                        <span class="upload-text">ไม่มีคัด</span>
+                                        <button type="button" class="browse-btn" onclick="document.getElementById('qr-code').click()">เลือกไฟล์</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="right-section">
+                            <div class="image-uploads">
+                                <div class="image-upload-group">
+                                    <label>📸 รูปถ่าย 1</label>
+                                    <div class="image-upload-box" onclick="document.getElementById('pictur1').click()">
+                                        <input type="file" id="pictur1" name="picture1" class="file-input" accept="image/*" style="display: none;">
+                                        <div class="upload-placeholder">
+                                            <span>📷</span>
+                                            <p>pictur1</p>
+                                        </div>
+                                        <img id="pictur1-preview" class="image-preview" style="display: none;">
+                                    </div>
+                                </div>
+
+                                <div class="image-upload-group">
+                                    <label>📸 รูปถ่าย 2</label>
+                                    <div class="image-upload-box" onclick="document.getElementById('pictur2').click()">
+                                        <input type="file" id="pictur2" name="picture2" class="file-input" accept="image/*" style="display: none;">
+                                        <div class="upload-placeholder">
+                                            <span>📷</span>
+                                            <p>pictur2 และอื่นๆ</p>
+                                        </div>
+                                        <img id="pictur2-preview" class="image-preview" style="display: none;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="back-btn" onclick="goBack()">← ย้อนกลับ</button>
+                        <button type="submit" class="continue-btn">Continue →</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        // Image preview functionality
+        ['pictur1', 'pictur2'].forEach(id => {
+            document.getElementById(id).addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const preview = document.getElementById(id + '-preview');
+                        const placeholder = e.target.parentNode.querySelector('.upload-placeholder');
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                        placeholder.style.display = 'none';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+
+        // QR code file upload
+        document.getElementById('qr-code').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const uploadText = document.querySelector('.upload-text');
+            if (file) {
+                uploadText.textContent = file.name;
+            } else {
+                uploadText.textContent = 'ไม่มีคัด';
+            }
+        });
+
+        // Form submission
+        document.getElementById('sellerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const contact1 = document.getElementById('seller-contact1').value;
+            const citizenId = document.getElementById('citizen-id').value;
+            const address = document.getElementById('seller-address').value;
+            const bankAccount = document.getElementById('bank-account').value;
+            
+            if (!contact1 || !citizenId || !address || !bankAccount) {
+                alert('กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน');
+                return;
+            }
+            
+            if (citizenId.length !== 13) {
+                alert('เลขบัตรประชาชนต้องมี 13 หลัก');
+                return;
+            }
+            
+            alert('สมัครเป็น Seller สำเร็จ! ขณะนี้คุณสามารถขายสินค้าได้แล้ว');
+            window.location.href = 'home.html';
+        });
+
+        // Citizen ID input formatting
+        document.getElementById('citizen-id').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>

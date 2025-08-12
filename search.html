@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ค้นหาสินค้า - AuctionHub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">🏆 AuctionHub</div>
+            <div class="tagline">เว็บประมูลออนไลน์ที่ใหญ่ที่สุดในประเทศไทย</div>
+            <div class="header-right">
+                </div>
+        </header>
+
+        <nav class="nav">
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="home.html" class="nav-link">🏠 Home</a></li>
+                <li class="nav-item"><a href="product-list.html" class="nav-link">🚀 Start Auction</a></li>
+                <li class="nav-item"><a href="cart.html" class="nav-link">🛒 Cart</a></li>
+                <li class="nav-item"><a href="search.html" class="nav-link active">🔍 Search</a></li>
+                <li class="nav-item"><a href="auctions.html" class="nav-link">👤 User</a></li>
+            </ul>
+        </nav>
+
+        
+
+    <script src="script.js"></script>
+    <script>
+        // Set 'Search' as active on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === 'search.html') {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+<div class="search-section">
+            <h2 class="section-title" style="border-bottom: none; margin-bottom: 20px;">🔍 ค้นหาสินค้าที่คุณต้องการ</h2>
+            <div class="search-container">
+                <div class="search-bar">
+                    <input type="text" placeholder="ค้นหาสินค้า..." class="search-input" id="searchInput">
+                    <button class="search-btn" onclick="performSearch()">🔍 ค้นหา</button>
+                </div>
+
+                <!-- Quick Categories Section -->
+                <div class="quick-categories">
+                    <h3 class="quick-categories-title">🏷️ ค้นหาตามหมวดหมู่</h3>
+                    <div class="category-grid">
+                        <div class="category-card" onclick="searchByCategory('fashion')">
+                            <div class="category-icon">👕</div>
+                            <div>เสื้อผ้า</div>
+                        </div>
+                        <div class="category-card" onclick="searchByCategory('electronics')">
+                            <div class="category-icon">📱</div>
+                            <div>อิเล็กทรอนิกส์</div>
+                        </div>
+                        <div class="category-card" onclick="searchByCategory('art')">
+                            <div class="category-icon">🎨</div>
+                            <div>งานศิลปะ</div>
+                        </div>
+                        <div class="category-card" onclick="searchByCategory('jewelry')">
+                            <div class="category-icon">💎</div>
+                            <div>เครื่องประดับ</div>
+                        </div>
+                        <div class="category-card" onclick="searchByCategory('collectibles')">
+                            <div class="category-icon">🏺</div>
+                            <div>ของสะสม</div>
+                        </div>
+                        <div class="category-card" onclick="searchByCategory('vehicles')">
+                            <div class="category-icon">🚗</div>
+                            <div>ยานพาหนะ</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filters">
+                    <div class="filter-group">
+                        <div class="filter-label">📊 เรียงตาม</div>
+                        <select class="filter-select">
+                            <option>ราคา: ต่ำ → สูง</option>
+                            <option>ราคา: สูง → ต่ำ</option>
+                            <option>ใหม่ล่าสุด</option>
+                            <option>ใกล้ปิดประมูล</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <div class="filter-label">🗂 หมวดหมู่</div>
+                        <select class="filter-select">
+                            <option>ทั้งหมด</option>
+                            <option>เสื้อผ้า</option>
+                            <option>อิเล็กทรอนิกส์</option>
+                            <option>งานศิลปะ</option>
+                            <option>เครื่องประดับ</option>
+                            <option>ของสะสม</option>
+                            <option>ยานพาหนะ</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <div class="filter-label">💰 ช่วงราคา</div>
+                        <select class="filter-select">
+                            <option>ทุกราคา</option>
+                            <option>&lt; 1,000 บาท</option>
+                            <option>1,000 - 5,000 บาท</option>
+                            <option>5,000 - 10,000 บาท</option>
+                            <option>&gt; 10,000 บาท</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </main>

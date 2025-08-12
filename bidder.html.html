@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สมัครเป็น Bidder - AuctionHub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">🏆 AuctionHub</div>
+            <div class="tagline">เว็บประมูลออนไลน์ที่ใหญ่ที่สุดในประเทศไทย</div>
+            <div class="header-right">
+            </div>
+        </header>
+
+        <nav class="nav">
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="home.html" class="nav-link">🏠 Home</a></li>
+                <li class="nav-item"><a href="product-list.html" class="nav-link">🚀 Start Auction</a></li>
+                <li class="nav-item"><a href="cart.html" class="nav-link">🛒 Cart</a></li>
+                <li class="nav-item"><a href="categories.html" class="nav-link">📂 Categories</a></li>
+                <li class="nav-item"><a href="search.html" class="nav-link">🔍 Search</a></li>
+                <li class="nav-item"><a href="auctions.html" class="nav-link">👤 User</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <div class="bidder-registration">
+                <h2 class="section-title">#สมัครเป็น Bidder</h2>
+                
+                <form class="registration-form" id="bidderForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contact1">📞 เบอร์โทรศัพท์ 1</label>
+                            <input type="tel" id="contact1" name="contact1" class="form-input" placeholder="กรอกเบอร์โทรศัพท์หลัก" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contact2">📞 เบอร์โทรศัพท์ 2</label>
+                            <input type="tel" id="contact2" name="contact2" class="form-input" placeholder="กรอกเบอร์โทรศัพท์สำรอง">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contact3">📞 เบอร์โทรศัพท์ 3</label>
+                            <input type="tel" id="contact3" name="contact3" class="form-input" placeholder="กรอกเบอร์โทรศัพท์เพิ่มเติม">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="address">🏠 ที่อยู่</label>
+                            <textarea id="address" name="address" class="form-textarea" rows="4" placeholder="กรอกที่อยู่ของคุณ" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="back-btn" onclick="goBack()">← ย้อนกลับ</button>
+                        <button type="submit" class="continue-btn">Continue →</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        document.getElementById('bidderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const contact1 = document.getElementById('contact1').value;
+            const address = document.getElementById('address').value;
+            
+            if (!contact1 || !address) {
+                alert('กรุณากรอกข้อมูลที่จำเป็น (เบอร์โทรหลักและที่อยู่)');
+                return;
+            }
+            
+            alert('สมัครเป็น Bidder สำเร็จ! ขณะนี้คุณสามารถเข้าร่วมการประมูลได้แล้ว');
+            window.location.href = 'home.html';
+        });
+    </script>
+</body>
+</html>

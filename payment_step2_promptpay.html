@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ชำระเงินครั้งที่ 2 - PromptPay QR Code - AuctionHub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        .payment-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .payment-title {
+            text-align: center;
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 10px;
+            position: relative;
+        }
+        
+        .step.inactive {
+            background: #ddd;
+            color: #999;
+        }
+        
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            width: 20px;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transform: translateY(-50%);
+        }
+        
+        .step.inactive:not(:last-child)::after {
+            background: #ddd;
+        }
+        
+        .payment-summary {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .method-info {
+            display: flex;
+            align-items: center;
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .method-icon {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+        
+        .method-details h3 {
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+        
+        .method-details p {
+            margin: 0;
+            color: #666;
+        }
+        
+        .qr-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .qr-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .qr-container {
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 20px;
+            padding: 30px;
+            display: inline-block;
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+            margin-bottom: 20px;
+        }
+        
+        .qr-code {
+            width: 250px;
+            height: 250px;
+            background: #f8f9fa;
+            border: 2px dashed #ddd;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            color: #667eea;
+            position: relative;
+        }
+        
+        .qr-code::after {
+            content: 'QR Code';
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.3em;
+            color: #999;
+        }
+        
+        .merchant-info {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .merchant-info h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+        
+        .merchant-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+        
+        .amount-display {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(39, 174, 96, 0.3);
+        }
+        
+        .amount-display h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.3em;
+        }
+        
+        .amount-display .amount {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .instructions {
+            background: rgba(255, 243, 205, 0.8);
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .instructions h4 {
+            margin: 0 0 15px 0;
+            color: #856404;
+            display: flex;
+            align-items: center;
+        }
+        
+        .instructions h4::before {
+            content: '💡';
+            margin-right: 10px;
+        }
+        
+        .instructions ol {
+            margin: 0;
+            padding-left: 20px;
+            color: #856404;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .receipt-upload {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            background: rgba(102, 126, 234, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: rgba(118, 75, 162, 0.1);
+        }
+        
+        .upload-area.drag-over {
+            border-color: #27ae60;
+            background: rgba(39, 174, 96, 0.1);
+        }
+        
+        .upload-icon {
+            font-size: 4em;
+            color: #667eea;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .upload-text {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .upload-hint {
+            color: #999;
+            font-size: 0.9em;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .uploaded-image {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-top: 15px;
+        }
+        
+        .file-info {
+            background: rgba(39, 174, 96, 0.1);
+            border: 1px solid #27ae60;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: left;
+        }
+        
+        .file-info h5 {
+            margin: 0 0 5px 0;
+            color: #27ae60;
+            display: flex;
+            align-items: center;
+        }
+        
+        .file-info h5::before {
+            content: '✅';
+            margin-right: 10px;
+        }
+        
+        .file-info p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .remove-file {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+        
+        .remove-file:hover {
+            background: #c82333;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .back-btn {
+            background: rgba(108, 117, 125, 0.9);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1em;
+            font-family: 'Kanit', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .back-btn:hover {
+            background: rgba(108, 117, 125, 1);
+            transform: translateY(-2px);
+        }
+        
+        .complete-btn {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1em;
+            font-family: 'Kanit', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 2;
+        }
+        
+        .complete-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(39, 174, 96, 0.4);
+        }
+        
+        .complete-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .timer-display {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid #e74c3c;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .timer-display h4 {
+            margin: 0 0 10px 0;
+            color: #e74c3c;
+        }
+        
+        .timer {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #e74c3c;
+            font-family: monospace;
+        }
+        
+        @media (max-width: 768px) {
+            .payment-container {
+                padding: 20px;
+            }
+            
+            .qr-code {
+                width: 200px;
+                height: 200px;
+                font-size: 3em;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .amount-display .amount {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">🏆 AuctionHub</div>
+            <div class="tagline">เว็บประมูลออนไลน์ที่ใหญ่ที่สุดในประเทศไทย</div>
+            <div class="header-right"></div>
+        </header>
+
+        <div class="payment-container">
+            <div class="step-indicator">
+                <div class="step">1</div>
+                <div class="step">2</div>
+                <div class="step inactive">3</div>
+            </div>
+            
+            <h1 class="payment-title">ชำระเงินผ่าน PromptPay</h1>
+            
+            <div class="payment-summary" id="paymentSummary">
+                <!-- Summary will be populated by JavaScript -->
+            </div>
+            
+            <div class="method-info">
+                <div class="method-icon">📱</div>
+                <div class="method-details">
+                    <h3>PromptPay QR Code</h3>
+                    <p>สแกน QR Code ด้วยแอปธนาคารของคุณเพื่อชำระเงิน</p>
+                </div>
+            </div>
+            
+            <div class="timer-display">
+                <h4>⏰ เวลาที่เหลือในการชำระเงิน</h4>
+                <div class="timer" id="paymentTimer">15:00</div>
+            </div>
+            
+            <div class="amount-display">
+                <h3>จำนวนเงินที่ต้องชำระ</h3>
+                <p class="amount" id="totalAmount">฿0</p>
+            </div>
+            
+            <div class="qr-section">
+                <h3 class="qr-title">สแกน QR Code เพื่อชำระเงิน</h3>
+                <div class="qr-container">
+                    <div class="qr-code">
+                        📱
+                    </div>
+                </div>
+                
+                <div class="merchant-info">
+                    <h4>ข้อมูลผู้ขาย</h4>
+                    <p><strong>ชื่อ:</strong> AuctionHub Thailand</p>
+                    <p><strong>เลขที่บัญชี:</strong> 0XX-XXX-XXXX</p>
+                    <p><strong>ธนาคาร:</strong> ธนาคารกรุงเทพ</p>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h4>วิธีการชำระเงิน</h4>
+                <ol>
+                    <li>เปิดแอปธนาคารของคุณ</li>
+                    <li>เลือกเมนู "สแกน QR Code" หรือ "PromptPay"</li>
+                    <li>สแกน QR Code ด้านบน</li>
+                    <li>ตรวจสอบจำนวนเงินและกดยืนยันการโอน</li>
+                    <li>หลังจากโอนเงินเสร็จแล้ว ให้อัพโหลดหลักฐานการโอนเงิน</li>
+                </ol>
+            </div>
+            
+            <div class="receipt-upload">
+                <h3 style="margin-bottom: 20px; color: #333;">อัพโหลดหลักฐานการโอนเงิน</h3>
+                
+                <div class="upload-area" id="uploadArea" onclick="document.getElementById('receiptFile').click()">
+                    <span class="upload-icon">📤</span>
+                    <div class="upload-text">คลิกเพื่อเลือกไฟล์หรือลากไฟล์มาวางที่นี่</div>
+                    <div class="upload-hint">รองรับไฟล์: JPG, PNG, PDF (ไม่เกิน 5MB)</div>
+                </div>
+                
+                <input type="file" id="receiptFile" class="file-input" accept=".jpg,.jpeg,.png,.pdf" onchange="handleFileSelect(event)">
+                
+                <div id="fileInfo" class="file-info" style="display: none;">
+                    <h5>ไฟล์ที่อัพโหลด</h5>
+                    <p id="fileName"></p>
+                    <img id="imagePreview" class="uploaded-image" style="display: none;">
+                    <button type="button" class="remove-file" onclick="removeFile()">ลบไฟล์</button>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="back-btn" onclick="goBack()">← กลับไปขั้นที่ 1</button>
+                <button class="complete-btn" id="completeBtn" onclick="completePayment()" disabled>
+                    เสร็จสิ้นการชำระเงิน ✓
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let paymentTimer = 900; // 15 minutes in seconds
+        let timerInterval;
+        let uploadedFile = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load payment data
+            const paymentData = JSON.parse(localStorage.getItem('paymentData'));
+            
+            if (!paymentData || paymentData.paymentMethod !== 'promptpay') {
+                alert('ไม่พบข้อมูลการชำระเงินหรือวิธีการชำระเงินไม่ถูกต้อง');
+                window.location.href = 'payment_step1.html';
+                return;
+            }
+            
+            // Populate payment summary
+            displayPaymentSummary(paymentData);
+            
+            // Start timer
+            startPaymentTimer();
+            
+            // Setup drag and drop
+            setupDragAndDrop();
+        });
+        
+        function displayPaymentSummary(paymentData) {
+            const summaryElement = document.getElementById('paymentSummary');
+            const totalAmountElement = document.getElementById('totalAmount');
+            
+            let summaryHTML = '<h3 style="margin-bottom: 15px; color: #333;">สรุปการสั่งซื้อ</h3>';
+            
+            paymentData.items.forEach((item, index) => {
+                summaryHTML += `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5em; margin-right: 15px;">
+                                ${index === 0 ? '🖼️' : '📱'}
+                            </div>
+                            <div>
+                                <div style="font-weight: 600; color: #333;">${item.name}</div>
+                                <div style="color: #666; font-size: 0.9em;">สินค้าที่ชนะการประมูล</div>
+                            </div>
+                        </div>
+                        <div style="font-weight: 600; color: #27ae60;">฿${item.price.toLocaleString()}</div>
+                    </div>
+                `;
+            });
+            
+            summaryHTML += `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; font-weight: 700; font-size: 1.1em; color: #333;">
+                    <div>รวมทั้งหมด:</div>
+                    <div style="color: #27ae60;">฿${paymentData.total.toLocaleString()}</div>
+                </div>
+            `;
+            
+            summaryElement.innerHTML = summaryHTML;
+            totalAmountElement.textContent = `฿${paymentData.total.toLocaleString()}`;
+        }
+        
+        function startPaymentTimer() {
+            const timerElement = document.getElementById('paymentTimer');
+            
+            timerInterval = setInterval(() => {
+                const minutes = Math.floor(paymentTimer / 60);
+                const seconds = paymentTimer % 60;
+                
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (paymentTimer <= 0) {
+                    clearInterval(timerInterval);
+                    alert('หมดเวลาการชำระเงิน กรุณาเริ่มการชำระเงินใหม่');
+                    window.location.href = 'cart.html';
+                    return;
+                }
+                
+                // Change color when less than 5 minutes
+                if (paymentTimer <= 300) {
+                    timerElement.style.color = '#e74c3c';
+                    timerElement.parentElement.style.borderColor = '#e74c3c';
+                    timerElement.parentElement.style.background = 'rgba(231, 76, 60, 0.1)';
+                }
+                
+                paymentTimer--;
+            }, 1000);
+        }
+        
+        function setupDragAndDrop() {
+            const uploadArea = document.getElementById('uploadArea');
+            
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.classList.add('drag-over');
+            });
+            
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('drag-over');
+            });
+            
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('drag-over');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFile(files[0]);
+                }
+            });
+        }
+        
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        }
+        
+        function handleFile(file) {
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('รองรับเฉพาะไฟล์ JPG, PNG และ PDF เท่านั้น');
+                return;
+            }
+            
+            // Validate file size (5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('ขนาดไฟล์ต้องไม่เกิน 5MB');
+                return;
+            }
+            
+            uploadedFile = file;
+            displayFileInfo(file);
+            
+            // Enable complete button
+            document.getElementById('completeBtn').disabled = false;
+        }
+        
+        function displayFileInfo(file) {
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const imagePreview = document.getElementById('imagePreview');
+            
+            fileName.textContent = `${file.name} (${formatFileSize(file.size)})`;
+            fileInfo.style.display = 'block';
+            
+            // Show image preview if it's an image
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.style.display = 'none';
+            }
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        function removeFile() {
+            uploadedFile = null;
+            document.getElementById('fileInfo').style.display = 'none';
+            document.getElementById('receiptFile').value = '';
+            document.getElementById('completeBtn').disabled = true;
+        }
+        
+        function goBack() {
+            window.location.href = 'payment_step1.html';
+        }
+        
+        function completePayment() {
+            if (!uploadedFile) {
+                alert('กรุณาอัพโหลดหลักฐานการโอนเงิน');
+                return;
+            }
+            
+            // Clear timer
+            clearInterval(timerInterval);
+            
+            // Simulate payment processing
+            const completeBtn = document.getElementById('completeBtn');
+            completeBtn.textContent = 'กำลังดำเนินการ...';
+            completeBtn.disabled = true;
+            
+            setTimeout(() => {
+                // Store payment completion data
+                const paymentData = JSON.parse(localStorage.getItem('paymentData'));
+                paymentData.status = 'pending_verification';
+                paymentData.receipt = uploadedFile.name;
+                paymentData.completedAt = new Date().toISOString();
+                localStorage.setItem('paymentData', JSON.stringify(paymentData));
+                
+                // Redirect to step 3 (confirmation)
+                window.location.href = 'payment_step3_confirmation.html';
+            }, 2000);
+        }
+        
+        // Cleanup timer when page unloads
+        window.addEventListener('beforeunload', function() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+        });
+    </script>
+</body>
+</html>

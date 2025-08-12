@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>แก้ไขโปรไฟล์ - AuctionHub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Kanit', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header */
+    .header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      color: #333;
+      padding: 20px;
+      text-align: center;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .header .logo {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin-bottom: 5px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header .tagline {
+      font-size: 1.1em;
+      color: #666;
+      opacity: 0.9;
+    }
+
+    /* Navigation */
+    .nav {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .nav-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .nav-item {
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 15px 20px;
+      color: #555;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border-radius: 15px;
+      margin: 5px;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .profile-edit-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    h2 {
+      font-size: 2.5em;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+    }
+
+    h2:after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    .section h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.4em;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .profile-pic-preview {
+      display: block;
+      margin: 0 auto 20px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid white;
+      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .profile-pic-preview:hover {
+      transform: scale(1.05);
+      box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+    }
+
+    .info-text {
+      font-size: 1.1em;
+      margin: 10px 0;
+      color: #555;
+      font-weight: 500;
+      word-break: break-word;
+      background: rgba(102, 126, 234, 0.05);
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #667eea;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      font-weight: 600;
+      font-size: 1em;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      margin-top: 15px;
+      color: white;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+      font-family: 'Kanit', sans-serif;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4);
+      background: linear-gradient(135deg, #764ba2, #667eea);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #6c757d, #495057);
+      box-shadow: 0 8px 20px rgba(108, 117, 125, 0.3);
+    }
+
+    .btn-secondary:hover {
+      background: linear-gradient(135deg, #495057, #6c757d);
+      box-shadow: 0 12px 25px rgba(108, 117, 125, 0.4);
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-content {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      max-width: 500px;
+      margin: 5% auto;
+      padding: 30px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-size: 1.6em;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+    }
+
+    .interest-list {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 25px;
+      border: 2px solid rgba(102, 126, 234, 0.2);
+      border-radius: 12px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .interest-list label {
+      display: block;
+      margin-bottom: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      color: #555;
+      transition: all 0.3s ease;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+
+    .interest-list label:hover {
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+    }
+
+    .interest-list input[type="checkbox"] {
+      margin-right: 12px;
+      cursor: pointer;
+      width: 18px;
+      height: 18px;
+      vertical-align: middle;
+      accent-color: #667eea;
+    }
+
+    /* Form inputs */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      color: #555;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"] {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 10px;
+      border: 2px solid rgba(102, 126, 234, 0.2);
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
+      font-size: 1em;
+      font-family: 'Kanit', sans-serif;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .form-group input[type="text"]:focus,
+    .form-group input[type="email"]:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    /* Contact display */
+    #contactDisplay p,
+    #nicknameDisplay p {
+      margin: 8px 0;
+      color: #555;
+      font-weight: 500;
+      background: rgba(102, 126, 234, 0.05);
+      padding: 12px 15px;
+      border-radius: 8px;
+      border-left: 3px solid #667eea;
+    }
+
+    /* Save Profile Button */
+    #btnSaveProfile {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      font-weight: 700;
+      font-size: 1.2em;
+      border: none;
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      transition: all 0.3s ease;
+      border-radius: 12px;
+      margin-top: 30px;
+      width: 100%;
+      padding: 15px;
+      font-family: 'Kanit', sans-serif;
+    }
+
+    #btnSaveProfile:hover {
+      background: linear-gradient(135deg, #764ba2, #667eea);
+      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.5);
+      transform: translateY(-3px);
+    }
+
+    /* Scrollbar for interest list */
+    .interest-list::-webkit-scrollbar {
+      width: 8px;
+    }
+    .interest-list::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+    }
+    .interest-list::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 8px;
+    }
+
+    /* Close button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .close:hover {
+      color: #667eea;
+    }
+
+    /* Modal actions */
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    @media (max-width: 768px) {
+      .profile-edit-container {
+        margin: 20px;
+        padding: 25px;
+      }
+      
+      .btn {
+        width: 100%;
+        text-align: center;
+        margin: 5px 0;
+      }
+
+      .modal-content {
+        margin: 10% 20px;
+        padding: 25px;
+      }
+
+      .nav-menu {
+        flex-direction: column;
+      }
+
+      .nav-link {
+        margin: 2px 5px;
+      }
+
+      .modal-actions {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">🏆 AuctionHub</div>
+      <div class="tagline">เว็บประมูลออนไลน์ที่ใหญ่ที่สุดในประเทศไทย</div>
+    </header>
+
+    <nav class="nav">
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="home.html" class="nav-link">🏠 Home</a></li>
+        <li class="nav-item"><a href="product-list.html" class="nav-link">🚀 Start Auction</a></li>
+        <li class="nav-item"><a href="cart.html" class="nav-link">🛒 Cart</a></li>
+        <li class="nav-item"><a href="search.html" class="nav-link">🔍 Search</a></li>
+        <li class="nav-item"><a href="auctions.html" class="nav-link active">👤 User</a></li>
+      </ul>
+    </nav>
+
+    <div class="profile-edit-container">
+      <h2>แก้ไขโปรไฟล์</h2>
+
+      <!-- Profile Picture -->
+      <div class="section" style="text-align:center;">
+        <h3>🖼️ Profile Picture</h3>
+        <img id="profilePreview" class="profile-pic-preview" src="https://via.placeholder.com/150" alt="Profile Preview" />
+        <br />
+        <input type="file" id="profilePic" accept="image/*" style="display:none;" />
+        <button class="btn" id="btnChangePic">📸 เปลี่ยนรูปโปรไฟล์</button>
+      </div>
+
+      <!-- Nickname -->
+      <div class="section">
+        <h3>👤 Nickname</h3>
+        <form id="nicknameForm" style="display:none; flex-direction: column; gap: 15px;">
+          <div class="form-group">
+            <label>👤 ชื่อเล่น:</label>
+            <input type="text" id="nicknameInput" value="ปาลีรัตน์ สถิตพลธนานันท์" />
+          </div>
+          <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;">
+            <button type="button" class="btn btn-secondary" id="cancelNicknameBtn">ยกเลิก</button>
+            <button type="button" class="btn" id="saveNicknameBtn">💾 บันทึก</button>
+          </div>
+        </form>
+        
+        <div id="nicknameDisplay" style="margin-top: 20px;">
+          <p class="info-text" id="nicknameText">ปาลีรัตน์ สถิตพลธนานันท์</p>
+        </div>
+        <button class="btn" id="btnChangeNick">✏️ เปลี่ยนชื่อเล่น</button>
+      </div>
+
+      <!-- Interest -->
+      <div class="section">
+        <h3>❤️ Interest</h3>
+        <p class="info-text" id="interestText">เลือกความสนใจของคุณ</p>
+        <button class="btn" id="btnChangeInterest">🎯 เปลี่ยนความสนใจ</button>
+      </div>
+
+      <!-- Modal -->
+      <div id="interestModal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal()">&times;</span>
+          <h3>เลือกความสนใจของคุณ</h3>
+          <div class="interest-list">
+            <label><input type="checkbox" value="เทคโนโลยี" /> 💻 เทคโนโลยี</label>
+            <label><input type="checkbox" value="กีฬา" /> ⚽ กีฬา</label>
+            <label><input type="checkbox" value="การท่องเที่ยว" /> ✈️ การท่องเที่ยว</label>
+            <label><input type="checkbox" value="ดนตรี" /> 🎵 ดนตรี</label>
+            <label><input type="checkbox" value="ศิลปะ" /> 🎨 ศิลปะ</label>
+            <label><input type="checkbox" value="อาหาร" /> 🍕 อาหาร</label>
+            <label><input type="checkbox" value="ภาพยนตร์" /> 🎬 ภาพยนตร์</label>
+            <label><input type="checkbox" value="การเงิน" /> 💰 การเงิน</label>
+            <label><input type="checkbox" value="แฟชั่น" /> 👗 แฟชั่น</label>
+            <label><input type="checkbox" value="หนังสือ" /> 📚 หนังสือ</label>
+            <label><input type="checkbox" value="เกม" /> 🎮 เกม</label>
+            <label><input type="checkbox" value="สุขภาพ" /> 💪 สุขภาพ</label>
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-secondary" id="closeModalBtn">ยกเลิก</button>
+            <button class="btn" id="saveInterest">✅ บันทึก</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="section">
+        <h3>📞 Contact</h3>
+        <form id="contactForm" style="display:none; flex-direction: column; gap: 15px;">
+          <div class="form-group">
+            <label>📱 เบอร์โทรศัพท์:</label>
+            <input type="text" id="contact1Input" value="081-234-5678" />
+          </div>
+          <div class="form-group">
+            <label>📧 อีเมล:</label>
+            <input type="email" id="contact2Input" value="user@example.com" />
+          </div>
+          <div class="form-group">
+            <label>💬 Line ID:</label>
+            <input type="text" id="contact3Input" value="@LineID" />
+          </div>
+          <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;">
+            <button type="button" class="btn btn-secondary" id="cancelContactBtn">ยกเลิก</button>
+            <button type="button" class="btn" id="saveContactBtn">💾 บันทึก</button>
+          </div>
+        </form>
+        
+        <div id="contactDisplay" style="margin-top: 20px;">
+          <p>📱 เบอร์โทรศัพท์: <span id="contact1Text">081-234-5678</span></p>
+          <p>📧 อีเมล: <span id="contact2Text">user@example.com</span></p>
+          <p>💬 Line ID: <span id="contact3Text">@LineID</span></p>
+        </div>
+        <button class="btn" id="btnChangeContact" style="margin-top: 15px;">
+          📝 เปลี่ยนข้อมูลติดต่อ
+        </button>
+      </div>
+
+      <button class="btn" id="btnSaveProfile" style="width: 100%;">
+        💾 บันทึกโปรไฟล์
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Profile picture change
+    document.getElementById('btnChangePic').addEventListener('click', () => {
+      document.getElementById('profilePic').click();
+    });
+
+    document.getElementById('profilePic').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        document.getElementById('profilePreview').src = URL.createObjectURL(file);
+      }
+    });
+
+    // Nickname form handling
+    const nicknameForm = document.getElementById('nicknameForm');
+    const nicknameDisplay = document.getElementById('nicknameDisplay');
+    const saveNicknameBtn = document.getElementById('saveNicknameBtn');
+    const cancelNicknameBtn = document.getElementById('cancelNicknameBtn');
+
+    const nicknameInput = document.getElementById('nicknameInput');
+    const nicknameText = document.getElementById('nicknameText');
+
+    function showNicknameForm(show) {
+      if (show) {
+        nicknameForm.style.display = 'flex';
+        nicknameDisplay.style.display = 'none';
+      } else {
+        nicknameForm.style.display = 'none';
+        nicknameDisplay.style.display = 'block';
+      }
+    }
+    
+    // Initially hide nickname form
+    showNicknameForm(false);
+
+    document.getElementById('btnChangeNick').addEventListener('click', () => {
+      nicknameInput.value = nicknameText.textContent;
+      showNicknameForm(true);
+      nicknameInput.focus();
+    });
+
+    saveNicknameBtn.addEventListener('click', () => {
+      if (nicknameInput.value.trim()) {
+        nicknameText.textContent = nicknameInput.value.trim();
+        showNicknameForm(false);
+      } else {
+        alert('กรุณากรอกชื่อเล่น');
+        nicknameInput.focus();
+      }
+    });
+
+    cancelNicknameBtn.addEventListener('click', () => {
+      showNicknameForm(false);
+    });
+
+    // Interest modal
+    const interestModal = document.getElementById('interestModal');
+    const btnChangeInterest = document.getElementById('btnChangeInterest');
+    const saveInterest = document.getElementById('saveInterest');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const interestText = document.getElementById('interestText');
+
+    function closeModal() {
+      interestModal.style.display = 'none';
+    }
+
+    btnChangeInterest.addEventListener('click', () => {
+      const currentInterests = interestText.textContent
+        .split(', ')
+        .filter((i) => i.trim() !== '' && i !== 'เลือกความสนใจของคุณ');
+      
+      document.querySelectorAll('.interest-list input[type="checkbox"]').forEach((cb) => {
+        cb.checked = currentInterests.includes(cb.value);
+      });
+      interestModal.style.display = 'block';
+    });
+
+    closeModalBtn.addEventListener('click', closeModal);
+
+    saveInterest.addEventListener('click', () => {
+      const selected = Array.from(
+        document.querySelectorAll('.interest-list input:checked')
+      ).map((cb) => cb.value);
+      
+      interestText.textContent = selected.length
+        ? selected.join(', ')
+        : 'เลือกความสนใจของคุณ';
+      closeModal();
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === interestModal) {
+        closeModal();
+      }
+    });
+
+    // Contact form handling
+    const contactForm = document.getElementById('contactForm');
+    const contactDisplay = document.getElementById('contactDisplay');
+    const saveContactBtn = document.getElementById('saveContactBtn');
+    const cancelContactBtn = document.getElementById('cancelContactBtn');
+
+    const contact1Input = document.getElementById('contact1Input');
+    const contact2Input = document.getElementById('contact2Input');
+    const contact3Input = document.getElementById('contact3Input');
+
+    const contact1Text = document.getElementById('contact1Text');
+    const contact2Text = document.getElementById('contact2Text');
+    const contact3Text = document.getElementById('contact3Text');
+
+    function showContactForm(show) {
+      if (show) {
+        contactForm.style.display = 'flex';
+        contactDisplay.style.display = 'none';
+      } else {
+        contactForm.style.display = 'none';
+        contactDisplay.style.display = 'block';
+      }
+    }
+    
+    // Initially hide contact form
+    showContactForm(false);
+
+    document.getElementById('btnChangeContact').addEventListener('click', () => {
+      contact1Input.value = contact1Text.textContent;
+      contact2Input.value = contact2Text.textContent;
+      contact3Input.value = contact3Text.textContent;
+      showContactForm(true);
+    });
+
+    saveContactBtn.addEventListener('click', () => {
+      contact1Text.textContent = contact1Input.value.trim() || '-';
+      contact2Text.textContent = contact2Input.value.trim() || '-';
+      contact3Text.textContent = contact3Input.value.trim() || '-';
+      showContactForm(false);
+    });
+
+    cancelContactBtn.addEventListener('click', () => {
+      showContactForm(false);
+    });
+
+    // Save profile
+    document.getElementById('btnSaveProfile').addEventListener('click', () => {
+      const nickname = nicknameText.textContent.trim();
+      const interest = interestText.textContent.trim();
+
+      let contact1, contact2, contact3;
+      const contactFormVisible = contactForm.style.display !== 'none';
+      if (contactFormVisible) {
+        contact1 = contact1Input.value.trim() || '-';
+        contact2 = contact2Input.value.trim() || '-';
+        contact3 = contact3Input.value.trim() || '-';
+      } else {
+        contact1 = contact1Text.textContent.trim();
+        contact2 = contact2Text.textContent.trim();
+        contact3 = contact3Text.textContent.trim();
+      }
+
+      const profilePicSrc = document.getElementById('profilePreview').src;
+
+      const profileData = {
+        nickname,
+        interest,
+        contact1,
+        contact2,
+        contact3,
+        profilePicSrc,
+      };
+      
+      // Note: localStorage is not supported in artifacts - use variables instead
+      alert('บันทึกโปรไฟล์เรียบร้อยแล้ว! 🎉');
+      // In real implementation: window.location.href = 'auctions.html';
+    });
+
+    // Load saved data on page load
+    window.addEventListener('load', () => {
+      // Note: Authentication check disabled for artifact demo
+      
+      // In real implementation, load saved profile data from localStorage
+      console.log('Profile edit page loaded');
+    });
+  </script>
+</body>
+</html>

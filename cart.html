@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ตะกร้าสินค้า - AuctionHub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">🏆 AuctionHub</div>
+            <div class="tagline">เว็บประมูลออนไลน์ที่ใหญ่ที่สุดในประเทศไทย</div>
+            <div class="header-right">
+                </div>
+        </header>
+
+        <nav class="nav">
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="home.html" class="nav-link">🏠 Home</a></li>
+                <li class="nav-item"><a href="product-list.html" class="nav-link">🚀 Start Auction</a></li>
+                <li class="nav-item"><a href="cart.html" class="nav-link active">🛒 Cart</a></li>
+                <li class="nav-item"><a href="search.html" class="nav-link">🔍 Search</a></li>
+                <li class="nav-item"><a href="auctions.html" class="nav-link">👤 User</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <div id="cart" class="section">
+                <h2 class="section-title">🛒 ตะกร้าสินค้า</h2>
+                <div class="cart-item">
+                    <div class="item-details">
+                        <div style="font-weight: bold;">ภาพวาดสีน้ำมันโบราณ</div>
+                        <div style="color: #7f8c8d;">ประมูลสำเร็จแล้ว</div>
+                    </div>
+                    <div class="item-price-section">
+                        <div class="item-price">฿25,000</div>
+                        <button class="pay-btn" onclick="goToPayment('ภาพวาดสีน้ำมันโบราณ', 25000)">💳 Pay</button>
+                    </div>
+                </div>
+                <div class="cart-item">
+                    <div class="item-details">
+                        <div style="font-weight: bold;">iPhone 15 Pro Max</div>
+                        <div style="color: #7f8c8d;">รอการชำระเงิน</div>
+                    </div>
+                    <div class="item-price-section">
+                        <div class="item-price">฿35,000</div>
+                        <button class="pay-btn" onclick="goToPayment('iPhone 15 Pro Max', 35000)">💳 Pay</button>
+                    </div>
+                </div>
+                <div class="cart-total">
+                    <div class="total-section">
+                        <div class="total-text">รวมทั้งหมด: ฿60,000</div>
+                        
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Set 'Cart' as active on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === 'cart.html') {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Payment functions
+        function goToPayment(itemName, price) {
+            console.log('goToPayment called with:', itemName, price);
+            
+            // Check if user is logged in
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (!loggedInUser) {
+                alert('กรุณาเข้าสู่ระบบก่อนทำการชำระเงิน');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                // Store payment data in localStorage
+                const paymentData = {
+                    items: [{
+                        name: itemName,
+                        price: price
+                    }],
+                    total: price,
+                    type: 'single'
+                };
+                localStorage.setItem('paymentData', JSON.stringify(paymentData));
+                console.log('Payment data stored:', paymentData);
+                
+                // Redirect to payment page
+                console.log('Redirecting to payment-step1.html');
+                window.location.href = 'payment_step1.html';
+            } catch (error) {
+                console.error('Error in goToPayment:', error);
+                alert('เกิดข้อผิดพลาดในการเตรียมข้อมูลชำระเงิน');
+            }
+        }
+
+        function goToPaymentAll() {
+            console.log('goToPaymentAll called');
+            
+            // Check if user is logged in
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (!loggedInUser) {
+                alert('กรุณาเข้าสู่ระบบก่อนทำการชำระเงิน');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                // Store all items payment data
+                const paymentData = {
+                    items: [
+                        { name: 'ภาพวาดสีน้ำมันโบราณ', price: 25000 },
+                        { name: 'iPhone 15 Pro Max', price: 35000 }
+                    ],
+                    total: 60000,
+                    type: 'all'
+                };
+                localStorage.setItem('paymentData', JSON.stringify(paymentData));
+                console.log('Payment data stored:', paymentData);
+                
+                // Redirect to payment page
+                console.log('Redirecting to payment-step1.html');
+                window.location.href = 'payment_step1.html';
+            } catch (error) {
+                console.error('Error in goToPaymentAll:', error);
+                alert('เกิดข้อผิดพลาดในการเตรียมข้อมูลชำระเงิน');
+            }
+        }
+    </script>
+</body>
+</html>

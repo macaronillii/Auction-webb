@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ลงทะเบียน - AuctionHub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">🏆 AuctionHub</div>
+            <div class="tagline">เว็บประมูลออนไลน์ที่ใหญ่ที่สุดในประเทศไทย</div>
+            <div class="header-right">
+                </div>
+        </header>
+
+        <nav class="nav">
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="home.html" class="nav-link">🏠 Home</a></li>
+                <li class="nav-item"><a href="product-list.html" class="nav-link">🚀 Start Auction</a></li>
+                <li class="nav-item"><a href="cart.html" class="nav-link">🛒 Cart</a></li>
+                <li class="nav-item"><a href="search.html" class="nav-link">🔍 Search</a></li>
+                <li class="nav-item"><a href="auctions.html" class="nav-link">👤 User</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <div class="auth-form-container">
+                <h2>ลงทะเบียน</h2>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="regUsername">ชื่อผู้ใช้</label>
+                        <input type="text" id="regUsername" name="username" placeholder="ตั้งชื่อผู้ใช้ของคุณ" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regEmail">อีเมล</label>
+                        <input type="email" id="regEmail" name="email" placeholder="กรอกอีเมล" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword">รหัสผ่าน</label>
+                        <input type="password" id="regPassword" name="password" placeholder="ตั้งรหัสผ่าน" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">ยืนยันรหัสผ่าน</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="ยืนยันรหัสผ่านอีกครั้ง" required>
+                    </div>
+                    <button type="submit" class="auth-btn">ลงทะเบียน</button>
+                </form>
+                <div class="switch-auth">
+                    มีบัญชีอยู่แล้ว? <a href="index.html">เข้าสู่ระบบ</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('รหัสผ่านไม่ตรงกัน กรุณาลองอีกครั้ง');
+                return;
+            }
+
+            // In a real application, you would send this to a backend server to create a new user.
+            // For now, we'll just simulate a successful registration.
+            if (username && email && password) {
+                alert(`ลงทะเบียนสำเร็จแล้ว! ชื่อผู้ใช้: ${username}, อีเมล: ${email}`);
+                // Simulate successful registration and redirect to login page
+                window.location.href = 'index.html'; // Redirect to login page after "registration"
+            } else {
+                alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+            }
+        });
+
+        // No active nav link for login/register pages
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+        });
+    </script>
+</body>
+</html>

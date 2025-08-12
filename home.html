@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Auction - เว็บประมูลออนไลน์</title>
+    <link rel="stylesheet" href="style.css" />
+   
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">🏆 Auction</div>
+            <div class="tagline">เว็บประมูลออนไลน์</div>
+            <div class="header-right"></div>
+        </header>
+
+        <nav class="nav">
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="home.html" class="nav-link active">🏠 Home</a></li>
+                <li class="nav-item"><a href="product-list.html" class="nav-link">🚀 Start Auction</a></li>
+                <li class="nav-item"><a href="cart.html" class="nav-link">🛒 Cart</a></li>
+                <li class="nav-item"><a href="search.html" class="nav-link">🔍 Search</a></li>
+                <li class="nav-item"><a href="auctions.html" class="nav-link">👤 User</a></li>
+            </ul>
+        </nav>
+
+        <div class="search-section">
+            <div class="search-container">
+                <div class="search-bar">
+                    <input type="text" placeholder="ค้นหาสินค้า..." class="search-input" id="searchInput" />
+                    <button class="search-btn" onclick="performSearch()">🔍 ค้นหา</button>
+                </div>
+                <div class="filters">
+                    <div class="filter-group">
+                        <div class="filter-label">📊 เรียงตาม</div>
+                        <select class="filter-select">
+                            <option>ราคา: ต่ำ → สูง</option>
+                            <option>ราคา: สูง → ต่ำ</option>
+                            <option>ใหม่ล่าสุด</option>
+                            <option>ใกล้ปิดประมูล</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <div class="filter-label">🗂 หมวดหมู่</div>
+                        <select class="filter-select">
+                            <option>ทั้งหมด</option>
+                            <option>เสื้อผ้า</option>
+                            <option>อิเล็กทรอนิกส์</option>
+                            <option>งานศิลปะ</option>
+                            <option>เครื่องประดับ</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <div class="filter-label">💰 ช่วงราคา</div>
+                        <select class="filter-select">
+                            <option>ทุกราคา</option>
+                            <option>&lt; 1,000 บาท</option>
+                            <option>1,000 - 5,000 บาท</option>
+                            <option>5,000 - 10,000 บาท</option>
+                            <option>&gt; 10,000 บาท</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <div id="home" class="section">
+                <h2 class="section-title"> การประมูลที่กำลังดำเนินการ</h2>
+
+                <div class="auction-grid"></div>
+
+                <script>
+                    window.addEventListener('DOMContentLoaded', () => {
+                        const grid = document.querySelector('.auction-grid');
+                        const items = JSON.parse(localStorage.getItem('auctionItems')) || [];
+
+                        if (items.length === 0) {
+                            grid.innerHTML = "<p>ยังไม่มีสินค้าที่เพิ่ม</p>";
+                            return;
+                        }
+
+                        grid.innerHTML = ''; // ล้างข้อมูลเก่า
+
+                        items.forEach((item, index) => {
+                            const card = document.createElement('div');
+                            card.className = 'auction-card';
+
+                            // แสดงรูปภาพหลักจาก array images
+                            const firstImage = item.images && item.images.length > 0 ? item.images[0] : '';
+
+                            card.innerHTML = `
+                                <div class="card-image">
+                                    <img src="${firstImage}" alt="${item.title}" style="width: 100%; height: 200px; object-fit: cover;" />
+                                    <div class="status-badge status-active">กำลังประมูล</div>
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="card-title">${item.title}</h3>
+                                    <p class="card-price">💰 ราคาปัจจุบัน: ฿${item.price}</p>
+                                    <p class="card-time">⏰ เหลือเวลา: ${item.time} นาที</p>
+                                    <button class="bid-btn" onclick="placeBid()">ประมูล</button>
+                                    <button class="delete-btn" onclick="deleteItem(${index})">🗑 ลบสินค้า</button>
+                                </div>
+                            `;
+                            grid.appendChild(card);
+                        });
+                    });
+
+                    function placeBid() {
+                        alert("ระบบจำลองการประมูลเท่านั้น ยังไม่ได้เชื่อม backend จริง");
+                    }
+
+                    function deleteItem(index) {
+                        if (confirm("คุณแน่ใจหรือไม่ว่าต้องการลบสินค้านี้?")) {
+                            let items = JSON.parse(localStorage.getItem('auctionItems')) || [];
+                            items.splice(index, 1); // ลบ item ตาม index
+                            localStorage.setItem('auctionItems', JSON.stringify(items));
+                            location.reload(); // โหลดหน้าใหม่เพื่ออัปเดตรายการ
+                        }
+                    }
+                </script>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Set 'Home' as active on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (
+                    link.getAttribute('href') === 'home.html' &&
+                    (currentPath.endsWith('home.html') || currentPath === '/' || currentPath.endsWith('/your-project-folder-name/'))
+                ) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+                    window.addEventListener('DOMContentLoaded', () => {
+    const grid = document.querySelector('.auction-grid');
+    const items = JSON.parse(localStorage.getItem('auctionItems')) || [];
+
+    if (items.length === 0) {
+        grid.innerHTML = "<p>ยังไม่มีสินค้าที่เพิ่ม</p>";
+        return;
+    }
+
+    grid.innerHTML = ''; // ล้างข้อมูลเก่า
+
+    items.forEach((item, index) => {
+    const card = document.createElement('div');
+    card.className = 'auction-card';
+
+    const firstImage = item.images && item.images.length > 0 ? item.images[0] : '';
+
+    card.innerHTML = `
+        <div class="card-image" style="cursor: pointer;" data-index="${index}">
+            <img src="${firstImage}" alt="${item.title}" style="width: 100%; height: 200px; object-fit: cover;" />
+            <div class="status-badge status-active">กำลังประมูล</div>
+        </div>
+        <div class="card-content">
+            <h3 class="card-title">${item.title}</h3>
+            <p class="card-price">💰 ราคาปัจจุบัน: ฿${item.price}</p>
+            <p class="card-time">⏰ เหลือเวลา: ${item.time} นาที</p>
+            <button class="delete-btn" onclick="deleteItem(${index})">🗑 ลบสินค้า</button>
+        </div>
+    `;
+    grid.appendChild(card);
+});
+
+// เมื่อคลิกรูป → ไปหน้า product-detail.html
+document.querySelectorAll('.card-image').forEach(imgDiv => {
+    imgDiv.addEventListener('click', (e) => {
+        const idx = e.currentTarget.getAttribute('data-index');
+        localStorage.setItem('selectedProduct', JSON.stringify(items[idx]));
+        window.location.href = 'product-detail.html';
+    });
+});
+
+});
+
+// ฟังก์ชันเปิด modal แสดงรายละเอียด
+function openDetailModal(item) {
+    document.getElementById('modalTitle').innerText = item.title || '';
+    document.getElementById('modalPriceStart').innerText = item.startPrice || item.price || '-';
+    document.getElementById('modalPriceMax').innerText = item.maxPrice || '-';
+    document.getElementById('modalBidMin').innerText = item.minBid || '-';
+    document.getElementById('modalDuration').innerText = item.duration || '-';
+    document.getElementById('modalDescription').innerText = item.description || '';
+
+    // จัดการรูปภาพใน modal
+    let currentImageIndex = 0;
+    const modalImage = document.getElementById('modalImage');
+    const images = item.images && item.images.length > 0 ? item.images : [''];
+
+    function showImage(index) {
+        if (images[index]) {
+            modalImage.src = images[index];
+        } else {
+            modalImage.src = '';
+        }
+    }
+
+    showImage(currentImageIndex);
+
+    document.getElementById('prevImageBtn').onclick = () => {
+        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+        showImage(currentImageIndex);
+    };
+
+    document.getElementById('nextImageBtn').onclick = () => {
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        showImage(currentImageIndex);
+    };
+
+    // แสดง modal
+    const modal = document.getElementById('detailModal');
+    modal.style.display = 'block';
+
+    // ปุ่มปิด modal
+    document.getElementById('modalCloseBtn').onclick = () => {
+        modal.style.display = 'none';
+    };
+
+    // กดนอก modal ปิด modal ได้
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+}
+
+function placeBid() {
+    alert("ระบบจำลองการประมูลเท่านั้น ยังไม่ได้เชื่อม backend จริง");
+}
+
+function deleteItem(index) {
+    if (confirm("คุณแน่ใจหรือไม่ว่าต้องการลบสินค้านี้?")) {
+        let items = JSON.parse(localStorage.getItem('auctionItems')) || [];
+        items.splice(index, 1); // ลบ item ตาม index
+        localStorage.setItem('auctionItems', JSON.stringify(items));
+        location.reload(); // โหลดหน้าใหม่เพื่ออัปเดตรายการ
+    }
+}
+
+    </script>
+
+    <!-- Modal แสดงรายละเอียดสินค้า -->
+<div id="detailModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" id="modalCloseBtn">&times;</span>
+    <h2 id="modalTitle"></h2>
+    <div class="modal-images">
+      <button id="prevImageBtn" class="img-nav-btn">&#10094;</button>
+      <img id="modalImage" src="" alt="รายละเอียดรูปภาพ" />
+      <button id="nextImageBtn" class="img-nav-btn">&#10095;</button>
+    </div>
+    <p><strong>ราคาเริ่มต้น:</strong> ฿<span id="modalPriceStart"></span></p>
+    <p><strong>ราคาสูงสุด:</strong> ฿<span id="modalPriceMax"></span></p>
+    <p><strong>BID ขั้นต่ำ:</strong> ฿<span id="modalBidMin"></span></p>
+    <p><strong>ระยะเวลา (ชั่วโมง):</strong> <span id="modalDuration"></span></p>
+    <p><strong>รายละเอียด:</strong></p>
+    <p id="modalDescription"></p>
+  </div>
+</div>
+
+</body>
+</html>

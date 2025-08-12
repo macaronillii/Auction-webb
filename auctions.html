@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อมูลผู้ใช้ - AuctionHub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS เพิ่มเติมสำหรับหน้านี้ */
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        .user-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .user-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .user-info h2 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .user-info p {
+            color: #777;
+            font-size: 1.1em;
+            margin: 5px 0;
+        }
+        .user-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-item .number {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #FF5722;
+        }
+        .stat-item .label {
+            font-size: 1.1em;
+            color: #555;
+            margin-top: 5px;
+        }
+        .user-actions {
+            margin-top: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .action-button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #fff;
+            background-color: #FF5722;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+        .action-button.secondary {
+            background-color: #007BFF;
+        }
+        .action-button.logout {
+            background-color: #dc3545;
+        }
+        .action-button:hover {
+            background-color: #E64A19;
+        }
+        .action-button.secondary:hover {
+            background-color: #0056b3;
+        }
+        .action-button.logout:hover {
+            background-color: #c82333;
+        }
+        .main-content {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">🏆 AuctionHub</div>
+            <div class="tagline">เว็บประมูลออนไลน์ที่ใหญ่ที่สุดในประเทศไทย</div>
+            <div class="header-right">
+                </div>
+        </header>
+
+        <nav class="nav">
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="home.html" class="nav-link">🏠 Home</a></li>
+                <li class="nav-item"><a href="product-list.html" class="nav-link">🚀 Start Auction</a></li>
+                <li class="nav-item"><a href="cart.html" class="nav-link">🛒 Cart</a></li>
+                <li class="nav-item"><a href="search.html" class="nav-link">🔍 Search</a></li>
+                <li class="nav-item"><a href="auctions.html" class="nav-link active">👤 User</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <section class="user-profile">
+                <img src="https://via.placeholder.com/150" alt="รูปโปรไฟล์" class="user-avatar">
+                <div class="user-info">
+                    <h2 id="welcomeUser">สวัสดี, ผู้ใช้ตัวอย่าง</h2>
+                    <p>สมาชิกตั้งแต่: 1 มกราคม 2565</p>
+                    <p>คะแนนความน่าเชื่อถือ: ★★★★★</p>
+                </div>
+                <div class="user-stats">
+                    <div class="stat-item">
+                        <div class="number">12</div>
+                        <div class="label">รายการที่ประมูลชนะ</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">5</div>
+                        <div class="label">รายการที่กำลังประมูลอยู่</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">3</div>
+                        <div class="label">รายการที่ลงขาย</div>
+                    </div>
+                </div>
+                <div class="user-actions">
+                    <a href="edit-user.html" class="action-button">Account Setting</a>
+                    <a href="profile-edit.html" class="action-button">Profile Edit</a>
+                    <a href="bidder.html.html" class="action-button">Register Bidder</a>
+                    <a href="seller.html.html" class="action-button">Register Seller</a>
+                    <button class="action-button logout" onclick="logout()"> logout</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // แสดงชื่อผู้ใช้จาก localStorage
+        document.addEventListener("DOMContentLoaded", () => {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                document.getElementById('welcomeUser').textContent = `สวัสดี, ${loggedInUser}`;
+            } else {
+                // ถ้าไม่ได้เข้าสู่ระบบ ให้กลับไปหน้า login
+                alert("กรุณาเข้าสู่ระบบก่อน");
+                window.location.href = "index.html";
+            }
+        });
+
+        // ฟังก์ชันออกจากระบบ
+        function logout() {
+            if (confirm("คุณต้องการออกจากระบบหรือไม่?")) {
+                // ลบข้อมูลผู้ใช้ที่เก็บไว้
+                localStorage.removeItem('loggedInUser');
+                
+                // แสดงข้อความยืนยัน
+                alert("ออกจากระบบสำเร็จ");
+                
+                // กลับไปหน้าเข้าสู่ระบบ
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>

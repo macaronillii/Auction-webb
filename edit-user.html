@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings - AuctionHub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        .account-settings {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .settings-title {
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 25px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #8FA7E8, #A68BC4);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .setting-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .setting-label {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: white;
+            flex: 1;
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        .setting-value {
+            font-size: 1em;
+            color: rgba(255, 255, 255, 0.9);
+            margin-right: 15px;
+            flex: 2;
+            text-align: center;
+        }
+
+        .change-btn {
+            background: rgba(255, 255, 255, 0.9);
+            color: #667eea;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-family: 'Kanit', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            min-width: 80px;
+        }
+
+        .change-btn:hover {
+            background: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .address-section {
+            margin-top: 30px;
+        }
+
+        .address-item {
+            display: block;
+            padding: 30px;
+            background: linear-gradient(135deg, #8FA7E8, #A68BC4);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .address-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .address-label {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .address-content {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.1em;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .address-change-btn {
+            display: block;
+            width: 120px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            color: #667eea;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-family: 'Kanit', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .address-change-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-btn-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-family: 'Kanit', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(108, 117, 125, 0.4);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .modal-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .modal-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .modal-form label {
+            display: block;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .modal-form input,
+        .modal-form textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 10px;
+            font-size: 1em;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        .modal-form input:focus,
+        .modal-form textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .modal-form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .modal-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-family: 'Kanit', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+
+        .modal-btn.save {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .modal-btn.cancel {
+            background: #6c757d;
+            color: white;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #667eea;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .setting-item {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .setting-label,
+            .setting-value {
+                flex: none;
+                text-align: center;
+            }
+
+            .address-content {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">🏆 AuctionHub</div>
+            <div class="tagline">เว็บประมูลออนไลน์ที่ใหญ่ที่สุดในประเทศไทย</div>
+            <div class="header-right"></div>
+        </header>
+
+        <nav class="nav">
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="home.html" class="nav-link">🏠 Home</a></li>
+                <li class="nav-item"><a href="product-list.html" class="nav-link">🚀 Start Auction</a></li>
+                <li class="nav-item"><a href="cart.html" class="nav-link">🛒 Cart</a></li>
+                <li class="nav-item"><a href="search.html" class="nav-link">🔍 Search</a></li>
+                <li class="nav-item"><a href="auctions.html" class="nav-link active">👤 User</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <section class="account-settings">
+                <h2 class="settings-title">Account Settings</h2>
+
+                <div class="setting-item">
+                    <span class="setting-label">Username</span>
+                    <span class="setting-value" id="username-display">ผู้ใช้ตัวอย่าง</span>
+                    <button class="change-btn" onclick="openModal('username')">change</button>
+                </div>
+
+                <div class="setting-item">
+                    <span class="setting-label">Password</span>
+                    <span class="setting-value">••••••••</span>
+                    <button class="change-btn" onclick="openModal('password')">change</button>
+                </div>
+
+                <div class="setting-item">
+                    <span class="setting-label">Email</span>
+                    <span class="setting-value" id="email-display">user@example.com</span>
+                    <button class="change-btn" onclick="openModal('email')">change</button>
+                </div>
+
+                <div class="setting-item">
+                    <span class="setting-label">Phone</span>
+                    <span class="setting-value" id="phone-display">081-234-5678</span>
+                    <button class="change-btn" onclick="openModal('phone')">change</button>
+                </div>
+
+                <div class="address-section">
+                    <div class="address-item">
+                        <div class="address-label">Address</div>
+                        <div class="address-content" id="address-display">
+                            123 ถนนตัวอย่าง ตำบล/แขวง ตัวอย่าง<br>
+                            อำเภอ/เขต ตัวอย่าง จังหวัด ตัวอย่าง<br>
+                            รหัสไปรษณีย์ 12345
+                        </div>
+                        <button class="address-change-btn" onclick="openModal('address')">change</button>
+                    </div>
+                </div>
+
+                <div class="back-btn-container">
+                    <a href="auctions.html" class="back-btn">🔙 กลับไปหน้าโปรไฟล์</a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3 class="modal-title" id="modal-title">แก้ไขข้อมูล</h3>
+            <form class="modal-form" id="editForm">
+                <div class="form-group" id="form-content">
+                    <!-- Dynamic form content will be inserted here -->
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="modal-btn cancel" onclick="closeModal()">ยกเลิก</button>
+                    <button type="submit" class="modal-btn save">บันทึก</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+            if (!user.username) {
+                alert("กรุณาเข้าสู่ระบบก่อน");
+                window.location.href = "index.html";
+            } else {
+                // Load saved user data
+                loadUserData();
+            }
+        });
+
+        function loadUserData() {
+            const savedData = JSON.parse(localStorage.getItem('userData') || '{}');
+            
+            if (savedData.username) document.getElementById('username-display').textContent = savedData.username;
+            if (savedData.email) document.getElementById('email-display').textContent = savedData.email;
+            if (savedData.phone) document.getElementById('phone-display').textContent = savedData.phone;
+            if (savedData.address) document.getElementById('address-display').innerHTML = savedData.address.replace(/\n/g, '<br>');
+        }
+
+        function openModal(field) {
+            const modal = document.getElementById('editModal');
+            const modalTitle = document.getElementById('modal-title');
+            const formContent = document.getElementById('form-content');
+            
+            let title, inputHtml;
+            
+            switch(field) {
+                case 'username':
+                    title = 'เปลี่ยนชื่อผู้ใช้';
+                    inputHtml = `
+                        <label for="new-username">ชื่อผู้ใช้ใหม่:</label>
+                        <input type="text" id="new-username" name="username" value="${document.getElementById('username-display').textContent}" required>
+                    `;
+                    break;
+                case 'password':
+                    title = 'เปลี่ยนรหัสผ่าน';
+                    inputHtml = `
+                        <label for="current-password">รหัสผ่านปัจจุบัน:</label>
+                        <input type="password" id="current-password" name="currentPassword" required>
+                        <label for="new-password">รหัสผ่านใหม่:</label>
+                        <input type="password" id="new-password" name="newPassword" required>
+                        <label for="confirm-password">ยืนยันรหัสผ่านใหม่:</label>
+                        <input type="password" id="confirm-password" name="confirmPassword" required>
+                    `;
+                    break;
+                case 'email':
+                    title = 'เปลี่ยนอีเมล';
+                    inputHtml = `
+                        <label for="new-email">อีเมลใหม่:</label>
+                        <input type="email" id="new-email" name="email" value="${document.getElementById('email-display').textContent}" required>
+                    `;
+                    break;
+                case 'phone':
+                    title = 'เปลี่ยนเบอร์โทรศัพท์';
+                    inputHtml = `
+                        <label for="new-phone">เบอร์โทรศัพท์ใหม่:</label>
+                        <input type="tel" id="new-phone" name="phone" value="${document.getElementById('phone-display').textContent}" required>
+                    `;
+                    break;
+                case 'address':
+                    title = 'เปลี่ยนที่อยู่';
+                    const currentAddress = document.getElementById('address-display').textContent.replace(/<br>/g, '\n');
+                    inputHtml = `
+                        <label for="new-address">ที่อยู่ใหม่:</label>
+                        <textarea id="new-address" name="address" rows="4" required>${currentAddress}</textarea>
+                    `;
+                    break;
+            }
+            
+            modalTitle.textContent = title;
+            formContent.innerHTML = inputHtml;
+            
+            // Store the field being edited
+            document.getElementById('editForm').dataset.field = field;
+            
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        // Handle form submission
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const field = this.dataset.field;
+            const formData = new FormData(this);
+            
+            if (field === 'password') {
+                const newPassword = formData.get('newPassword');
+                const confirmPassword = formData.get('confirmPassword');
+                
+                if (newPassword !== confirmPassword) {
+                    alert('รหัสผ่านใหม่และการยืนยันไม่ตรงกัน');
+                    return;
+                }
+                
+                if (newPassword.length < 6) {
+                    alert('รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร');
+                    return;
+                }
+                
+                // In a real app, you would validate the current password
+                alert('เปลี่ยนรหัสผ่านสำเร็จ');
+            } else {
+                // Update the display
+                const newValue = formData.get(field === 'username' ? 'username' : 
+                                           field === 'email' ? 'email' : 
+                                           field === 'phone' ? 'phone' : 'address');
+                
+                if (field === 'address') {
+                    document.getElementById('address-display').innerHTML = newValue.replace(/\n/g, '<br>');
+                } else {
+                    document.getElementById(field + '-display').textContent = newValue;
+                }
+                
+                // Save to localStorage
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                userData[field] = newValue;
+                localStorage.setItem('userData', JSON.stringify(userData));
+                
+                // Update logged in user if username changed
+                if (field === 'username') {
+                    localStorage.setItem('loggedInUser', newValue);
+                }
+                
+                alert(`เปลี่ยน${field === 'username' ? 'ชื่อผู้ใช้' : 
+                            field === 'email' ? 'อีเมล' : 
+                            field === 'phone' ? 'เบอร์โทรศัพท์' : 'ที่อยู่'}สำเร็จ`);
+            }
+            
+            closeModal();
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('editModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>
